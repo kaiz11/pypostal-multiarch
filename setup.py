@@ -66,7 +66,7 @@ def find_libpostal():
     return include_dirs, library_dirs
 
 
-VERSION = '1.2.0'
+VERSION = '1.0.0'
 
 
 def main():
