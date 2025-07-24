@@ -29,19 +29,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install cibuildwheel==2.16.2
 
-    - name: Install libpostal (Linux)
-      if: runner.os == 'Linux'  
-      run: |
-        sudo apt-get update
-        sudo apt-get install -y curl autoconf automake libtool pkg-config
-        git clone https://github.com/openvenues/libpostal
-        cd libpostal
-        ./bootstrap.sh
-        ./configure --datadir=/tmp/libpostal-data
-        make -j$(nproc)
-        sudo make install
-        sudo ldconfig
-
     - name: Install libpostal (macOS)
       if: runner.os == 'macOS'
       run: |
@@ -70,9 +57,17 @@ jobs:
         CIBW_ARCHS_MACOS: "x86_64 arm64"
         # Skip tests that require libpostal data
         CIBW_TEST_SKIP: "*"
-        # Override the pyproject.toml before_all commands - they're not working
-        CIBW_BEFORE_ALL: ""
-        CIBW_BEFORE_ALL_LINUX: "echo 'libpostal already installed in previous step'"
+        # Install libpostal inside cibuildwheel containers
+        CIBW_BEFORE_ALL_LINUX: >
+          yum install -y curl autoconf automake libtool pkgconfig || 
+          (apt-get update && apt-get install -y curl autoconf automake libtool pkg-config) &&
+          git clone https://github.com/openvenues/libpostal /tmp/libpostal &&
+          cd /tmp/libpostal &&
+          ./bootstrap.sh &&
+          ./configure --datadir=/tmp/libpostal-data &&
+          make -j$(nproc) &&
+          make install &&
+          ldconfig
         CIBW_BEFORE_ALL_MACOS: "echo 'libpostal already installed in previous step'"
 
     - name: Upload wheels as artifacts
