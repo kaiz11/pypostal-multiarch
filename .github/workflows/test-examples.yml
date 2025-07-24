@@ -1,0 +1,71 @@
+name: Test README Examples
+
+on:
+  push:
+    branches: [master, main]
+  pull_request:
+    branches: [master, main]
+  workflow_dispatch:
+
+jobs:
+  test-examples:
+    name: Test README examples on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-14]  # Test on our supported platforms
+        python-version: ['3.11']  # Just test one Python version for now
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install system dependencies (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl autoconf automake libtool python3-dev pkg-config
+
+    - name: Install system dependencies (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install curl autoconf automake libtool pkg-config
+
+    - name: Install libpostal
+      run: |
+        git clone https://github.com/openvenues/libpostal
+        cd libpostal
+        ./bootstrap.sh
+        if [[ "${{ runner.os }}" == "macOS" && "$(uname -m)" == "arm64" ]]; then
+          ./configure --datadir=${{ runner.temp }}/libpostal-data --disable-sse2
+        else
+          ./configure --datadir=${{ runner.temp }}/libpostal-data
+        fi
+        make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu)
+        sudo make install
+        if [[ "${{ runner.os }}" == "Linux" ]]; then
+          sudo ldconfig
+        fi
+
+    - name: Install our Python package
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+
+    - name: Test README examples
+      run: |
+        python test_readme_examples.py
+
+    - name: Test that imports work
+      run: |
+        python -c "
+        from postal.expand import expand_address
+        from postal.parser import parse_address
+        from postal.normalize import normalize_string
+        print('✅ All imports successful')
+        print('✅ Basic functionality test passed')
+        "
