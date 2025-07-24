@@ -11,6 +11,15 @@ This is a modernized fork of the original [pypostal](https://github.com/openvenu
 - ✅ **Apple Silicon (M1/M2) native support**
 - ✅ **Automated CI/CD** with GitHub Actions
 - ✅ **Modern packaging** with pyproject.toml
+- ✅ **Comprehensive mypy type support**
+
+## Attribution
+
+This project is a modernized fork of [pypostal](https://github.com/openvenues/pypostal) by OpenVenues. The original project provides the core functionality and much of the installation documentation found in this README. We've extended it with modern Python support, multi-architecture compatibility, and comprehensive type hints.
+
+**Original project**: https://github.com/openvenues/pypostal  
+**Original authors**: OpenVenues team  
+**License**: MIT (same as original)
 
 Usage
 -----
@@ -25,6 +34,7 @@ parse_address('The Book Club 100-106 Leonard St, Shoreditch, London, Greater Lon
 
 Installation
 ------------
+*Based on installation instructions from the original pypostal project*
 
 Before using the Python bindings, you must install the libpostal C library. Make sure you have the following prerequisites:
 
