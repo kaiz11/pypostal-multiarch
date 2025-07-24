@@ -25,7 +25,7 @@ Usage
 -----
 **⚠️ Note**: These examples require that libpostal is already installed on your system. See the [Installation](#installation) section below.
 
-**✅ Verified**: These examples are automatically tested in our CI to ensure they actually work. The workflow tests examples first, then builds wheels only if examples pass.
+**✅ Verified**: These examples are automatically tested in our CI on every push to ensure they actually work. Wheel building and publishing only happens on version tags after examples pass.
 
 ### Address Expansion
 Normalize and expand addresses into multiple possible variants:
