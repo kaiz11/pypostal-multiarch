@@ -23,7 +23,7 @@ This project is a modernized fork of [pypostal](https://github.com/openvenues/py
 
 Usage
 -----
-**⚠️ Note**: These examples require that libpostal is already installed on your system. See the [Installation](#installation) section below.
+**⚠️ Note**: These examples require that libpostal is already installed on your system. See the [Installation](#installation) section below. The examples show expected behavior based on the original pypostal project - actual results may vary.
 
 ### Address Expansion
 Normalize and expand addresses into multiple possible variants:
@@ -227,5 +227,15 @@ This means the libpostal shared library can't be found:
 - Check that libpostal installed correctly with `ldconfig -p | grep postal`
 - Make sure `/usr/local/lib` is in your library path
 
-### Examples don't work
+### Examples don't work  
 The usage examples in this README require libpostal to be installed and working. If you're just browsing the documentation, the examples show expected outputs but won't actually run without the full setup.
+
+### Installation is complex
+Installing libpostal can be challenging, especially in environments with:
+- Multiple Python installations (conda, pyenv, system Python)
+- SSL/TLS library conflicts  
+- Corporate firewalls blocking downloads
+- Limited disk space (libpostal data files are ~1.5GB)
+- Permission issues for system-wide installation
+
+If you encounter issues, consider using a clean environment or Docker container for testing.
