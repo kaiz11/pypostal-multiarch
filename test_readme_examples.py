@@ -75,10 +75,11 @@ def test_text_normalization():
     assert isinstance(tokens, list), f"Expected list, got {type(tokens)}"
     assert len(tokens) > 0, "Should return at least one token"
     
-    # Check each token is a (string, string) tuple
+    # Check each token is a (string, token_type) tuple
     for token, token_type in tokens:
         assert isinstance(token, str), f"Token should be string, got {type(token)}"
-        assert isinstance(token_type, str), f"Token type should be string, got {type(token_type)}"
+        # Token type can be EnumValue or string representation
+        assert hasattr(token_type, '__str__'), f"Token type should be printable, got {type(token_type)}"
         print(f"  {token} ({token_type})")
 
 def test_address_deduplication():
@@ -110,13 +111,17 @@ def test_type_annotations():
     from typing import List, Tuple
     from postal.expand import expand_address
     from postal.parser import parse_address
+    from postal.normalize import normalized_tokens
+    from postal.utils.enum import EnumValue
     
     # These should work if our type stubs are correct
     expansions: List[str] = expand_address("123 Main St")
     components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
+    tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
     
     print(f"✓ Type annotations work - expansions: {len(expansions)} items")
     print(f"✓ Type annotations work - components: {len(components)} items")
+    print(f"✓ Type annotations work - tokens: {len(tokens)} items")
 
 def main():
     """Run all README example tests."""

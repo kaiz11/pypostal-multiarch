@@ -1,6 +1,7 @@
 """Type stubs for postal.normalize module."""
 
 from typing import List, Optional, Tuple, Union, Sequence
+from postal.utils.enum import EnumValue
 
 # String options constants
 NORMALIZE_STRING_LATIN_ASCII: int
@@ -45,4 +46,4 @@ def normalized_tokens(
     strip_parentheticals: bool = True,
     whitespace: bool = False,
     languages: Optional[Sequence[str]] = None
-) -> List[Tuple[str, str]]: ...
+) -> List[Tuple[str, EnumValue]]: ...

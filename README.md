@@ -79,10 +79,9 @@ tokens = normalized_tokens('123 Main St.')
 for token, token_type in tokens:
     print(f"{token} ({token_type})")
 # Output:
-# 123 (numeric)
-# main (word)  
-# saint (word)
-# street (word)
+# 123 (NUMERIC)
+# main (WORD)  
+# saint (WORD)
 ```
 
 ### Address Deduplication
@@ -107,10 +106,13 @@ This package includes comprehensive type hints for mypy users:
 from typing import List, Tuple
 from postal.expand import expand_address
 from postal.parser import parse_address
+from postal.normalize import normalized_tokens
+from postal.utils.enum import EnumValue
 
 # Type hints work out of the box
 expansions: List[str] = expand_address("123 Main St")
 components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
+tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
 ```
 
 Installation
