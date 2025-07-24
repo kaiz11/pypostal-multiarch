@@ -58,16 +58,7 @@ jobs:
         # Skip tests that require libpostal data
         CIBW_TEST_SKIP: "*"
         # Install libpostal inside cibuildwheel containers
-        CIBW_BEFORE_ALL_LINUX: >
-          yum install -y curl autoconf automake libtool pkgconfig || 
-          (apt-get update && apt-get install -y curl autoconf automake libtool pkg-config) &&
-          git clone https://github.com/openvenues/libpostal /tmp/libpostal &&
-          cd /tmp/libpostal &&
-          ./bootstrap.sh &&
-          ./configure --datadir=/tmp/libpostal-data &&
-          make -j$(nproc) &&
-          make install &&
-          ldconfig
+        CIBW_BEFORE_ALL_LINUX: "yum install -y curl autoconf automake libtool pkgconfig || (apt-get update && apt-get install -y curl autoconf automake libtool pkg-config) && git clone https://github.com/openvenues/libpostal /tmp/libpostal && cd /tmp/libpostal && ./bootstrap.sh && ./configure --datadir=/tmp/libpostal-data && make -j\$(nproc) && make install && ldconfig"
         CIBW_BEFORE_ALL_MACOS: "echo 'libpostal already installed in previous step'"
 
     - name: Upload wheels as artifacts
