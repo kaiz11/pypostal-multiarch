@@ -45,29 +45,4 @@ dependencies = [
 "Bug Tracker" = "https://github.com/kaiz11/pypostal-multiarch/issues"
 "Original Project" = "https://github.com/openvenues/pypostal"
 
-[tool.cibuildwheel]
-build = "cp38-* cp39-* cp310-* cp311-* cp312-*"
-skip = "pp* *-musllinux_* *-win32"
-test-command = "python -c 'import postal.expand; print(postal.expand.expand_address(\"123 Main St\"))'"
-test-requires = ["nose"]
-
-[tool.cibuildwheel.linux]
-before-all = [
-    "yum install -y curl autoconf automake libtool pkgconfig || apt-get update && apt-get install -y curl autoconf automake libtool pkg-config",
-    "git clone https://github.com/openvenues/libpostal /tmp/libpostal",
-    "cd /tmp/libpostal && ./bootstrap.sh && ./configure --datadir=/tmp/libpostal-data && make && make install",
-    "ldconfig"
-]
-
-[tool.cibuildwheel.macos]
-before-all = [
-    "brew install curl autoconf automake libtool pkg-config || echo 'brew packages may already be installed'",
-    "git clone https://github.com/openvenues/libpostal /tmp/libpostal",
-    "cd /tmp/libpostal && ./bootstrap.sh && ./configure --datadir=/tmp/libpostal-data --disable-sse2 && make && make install"
-]
-
-[tool.cibuildwheel.windows]
-before-all = [
-    "git clone https://github.com/openvenues/libpostal C:\\libpostal",
-    "cd C:\\libpostal && cp -rf windows/* ./ && ./bootstrap.sh && ./configure --datadir=C:\\libpostal-data && make && make install"
-]
+# cibuildwheel configuration is handled in GitHub Actions workflow

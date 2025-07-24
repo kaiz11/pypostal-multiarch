@@ -66,7 +66,7 @@ pip install pypostal-multiarch
 **Note**: Pre-built wheels are available for:
 - **Linux**: x86_64, aarch64 (ARM64)
 - **macOS**: x86_64 (Intel), arm64 (Apple Silicon M1/M2)  
-- **Windows**: AMD64
+- **Windows**: Coming soon (currently install from source)
 - **Python**: 3.8, 3.9, 3.10, 3.11, 3.12
 
 **Installing libpostal on Windows**
@@ -104,7 +104,7 @@ pypostal-multiarch supports **Python 3.8+** (including Python 3.11 and 3.12). Th
 **Architecture Support:**
 - **Linux**: x86_64, aarch64 (ARM64)
 - **macOS**: x86_64 (Intel), arm64 (Apple Silicon)
-- **Windows**: AMD64
+- **Windows**: Coming soon (currently source installation only)
 
 Tests
 -----
