@@ -1,7 +1,7 @@
 pypostal-multiarch
 ------------------
 
-[![Build Status](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml/badge.svg)](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml) [![Examples Test](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/test-examples.yml/badge.svg)](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/test-examples.yml) [![PyPI version](https://img.shields.io/pypi/v/pypostal-multiarch.svg)](https://pypi.python.org/pypi/pypostal-multiarch) [![License](https://img.shields.io/github/license/kaiz11/pypostal-multiarch.svg)](https://github.com/kaiz11/pypostal-multiarch/blob/master/LICENSE)
+[![Test, Build and Publish](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml/badge.svg)](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml) [![PyPI version](https://img.shields.io/pypi/v/pypostal-multiarch.svg)](https://pypi.python.org/pypi/pypostal-multiarch) [![License](https://img.shields.io/github/license/kaiz11/pypostal-multiarch.svg)](https://github.com/kaiz11/pypostal-multiarch/blob/master/LICENSE)
 
 Python bindings to https://github.com/openvenues/libpostal with **multi-architecture support** including ARM64/Apple Silicon and **Python 3.8-3.12** compatibility.
 
@@ -25,7 +25,7 @@ Usage
 -----
 **⚠️ Note**: These examples require that libpostal is already installed on your system. See the [Installation](#installation) section below.
 
-**✅ Verified**: These examples are automatically tested in our CI to ensure they actually work. See the "Examples Test" badge above for current status.
+**✅ Verified**: These examples are automatically tested in our CI to ensure they actually work. The workflow tests examples first, then builds wheels only if examples pass.
 
 ### Address Expansion
 Normalize and expand addresses into multiple possible variants:

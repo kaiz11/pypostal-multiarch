@@ -1,4 +1,4 @@
-name: Build and publish wheels
+name: Test, Build and Publish
 
 on:
   push:
@@ -9,9 +9,72 @@ on:
   workflow_dispatch:
 
 jobs:
+  test_examples:
+    name: Test README examples on ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, macos-14]
+        python-version: ['3.11']
+    
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+
+    - name: Install system dependencies (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y curl autoconf automake libtool python3-dev pkg-config
+
+    - name: Install system dependencies (macOS)
+      if: runner.os == 'macOS'
+      run: |
+        brew install curl autoconf automake libtool pkg-config
+
+    - name: Install libpostal
+      run: |
+        git clone https://github.com/openvenues/libpostal
+        cd libpostal
+        ./bootstrap.sh
+        if [[ "${{ runner.os }}" == "macOS" && "$(uname -m)" == "arm64" ]]; then
+          ./configure --datadir=${{ runner.temp }}/libpostal-data --disable-sse2
+        else
+          ./configure --datadir=${{ runner.temp }}/libpostal-data
+        fi
+        make -j$(nproc 2>/dev/null || sysctl -n hw.ncpu)
+        sudo make install
+        if [[ "${{ runner.os }}" == "Linux" ]]; then
+          sudo ldconfig
+        fi
+
+    - name: Install our Python package
+      run: |
+        python -m pip install --upgrade pip
+        pip install -e .
+
+    - name: Test README examples
+      run: |
+        python test_readme_examples.py
+
+    - name: Test basic imports
+      run: |
+        python -c "
+        from postal.expand import expand_address
+        from postal.parser import parse_address
+        from postal.normalize import normalize_string
+        print('✅ All imports successful')
+        print('✅ Basic functionality test passed')
+        "
+
   build_wheels:
     name: Build wheels on ${{ matrix.os }}
     runs-on: ${{ matrix.os }}
+    needs: test_examples  # Only run if examples pass
     strategy:
       matrix:
         os: [ubuntu-22.04, macos-14]  # macos-14 is Apple Silicon
