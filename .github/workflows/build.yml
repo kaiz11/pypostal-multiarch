@@ -62,7 +62,7 @@ jobs:
         CIBW_MANYLINUX_AARCH64_IMAGE: "manylinux_2_28"
         CIBW_BEFORE_ALL_LINUX: |
           # Use dnf for newer CentOS/AlmaLinux, fallback to yum for older systems
-          (dnf install -y curl autoconf automake libtool pkgconfig git || yum install -y curl autoconf automake libtool pkgconfig git) && 
+          (dnf install -y --nogpgcheck curl autoconf automake libtool pkgconfig git || yum install -y curl autoconf automake libtool pkgconfig git) && 
           git clone https://github.com/openvenues/libpostal /tmp/libpostal && 
           cd /tmp/libpostal && 
           ./bootstrap.sh && 
