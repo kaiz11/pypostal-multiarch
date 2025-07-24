@@ -82,6 +82,25 @@ def test_text_normalization():
         assert hasattr(token_type, '__str__'), f"Token type should be printable, got {type(token_type)}"
         print(f"  {token} ({token_type})")
 
+def test_text_tokenization():
+    """Test the text tokenization examples from README."""
+    print("\n=== Testing Text Tokenization ===")
+    
+    from postal.tokenize import tokenize
+    
+    # Tokenization example
+    tokens = tokenize('123 Main St.')
+    print(f"✓ Tokenization returned {len(tokens)} tokens")
+    
+    assert isinstance(tokens, list), f"Expected list, got {type(tokens)}"
+    assert len(tokens) > 0, "Should return at least one token"
+    
+    # Check each token is a (string, token_type) tuple
+    for token, token_type in tokens:
+        assert isinstance(token, str), f"Token should be string, got {type(token)}"
+        assert hasattr(token_type, '__str__'), f"Token type should be printable, got {type(token_type)}"
+        print(f"  {token} ({token_type})")
+
 def test_address_deduplication():
     """Test the address deduplication examples from README."""
     print("\n=== Testing Address Deduplication ===")
@@ -104,6 +123,22 @@ def test_address_deduplication():
     except Exception as e:
         print(f"  ⚠ Status comparison issue: {e}")
 
+def test_near_duplicate_hashing():
+    """Test the near-duplicate hashing examples from README."""
+    print("\n=== Testing Near-Duplicate Hashing ===")
+    
+    from postal.near_dupe import near_dupe_hashes
+    
+    # Near-duplicate hashing example
+    labels = ['house_number', 'road', 'city', 'postcode']
+    values = ['123', 'Main St', 'New York', '10001']
+    hashes = near_dupe_hashes(labels, values)
+    print(f"✓ Generated {len(hashes)} similarity hashes")
+    
+    assert isinstance(hashes, list), f"Expected list, got {type(hashes)}"
+    assert len(hashes) > 0, "Should return at least one hash"
+    assert all(isinstance(h, str) for h in hashes), "All hashes should be strings"
+
 def test_type_annotations():
     """Test that type annotations work as shown in README."""
     print("\n=== Testing Type Annotations ===")
@@ -112,16 +147,22 @@ def test_type_annotations():
     from postal.expand import expand_address
     from postal.parser import parse_address
     from postal.normalize import normalized_tokens
+    from postal.tokenize import tokenize
+    from postal.near_dupe import near_dupe_hashes
     from postal.utils.enum import EnumValue
     
     # These should work if our type stubs are correct
     expansions: List[str] = expand_address("123 Main St")
     components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
-    tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
+    norm_tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
+    tokens: List[Tuple[str, EnumValue]] = tokenize("123 Main St")
+    hashes: List[str] = near_dupe_hashes(['road'], ['Main St'])
     
     print(f"✓ Type annotations work - expansions: {len(expansions)} items")
     print(f"✓ Type annotations work - components: {len(components)} items")
+    print(f"✓ Type annotations work - norm_tokens: {len(norm_tokens)} items")
     print(f"✓ Type annotations work - tokens: {len(tokens)} items")
+    print(f"✓ Type annotations work - hashes: {len(hashes)} items")
 
 def main():
     """Run all README example tests."""
@@ -131,7 +172,9 @@ def main():
         test_address_expansion()
         test_address_parsing()  
         test_text_normalization()
+        test_text_tokenization()
         test_address_deduplication()
+        test_near_duplicate_hashing()
         test_type_annotations()
         
         print("\n🎉 All README examples work correctly!")

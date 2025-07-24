@@ -84,6 +84,23 @@ for token, token_type in tokens:
 # saint (WORD)
 ```
 
+### Text Tokenization
+Split text into tokens with classification:
+
+```python
+from postal.tokenize import tokenize
+
+# Tokenize text
+tokens = tokenize('123 Main St.')
+for token, token_type in tokens:
+    print(f"{token} ({token_type})")
+# Output:
+# 123 (NUMERIC)
+# Main (WORD)
+# St (ABBREVIATION)
+# . (PERIOD)
+```
+
 ### Address Deduplication
 Check if addresses are duplicates:
 
@@ -99,6 +116,20 @@ if status == duplicate_status.EXACT_DUPLICATE:
     # Output: These are the same street
 ```
 
+### Near-Duplicate Hashing
+Generate hashes for similarity detection:
+
+```python
+from postal.near_dupe import near_dupe_hashes
+
+# Generate hashes for address similarity
+labels = ['house_number', 'road', 'city', 'postcode']
+values = ['123', 'Main St', 'New York', '10001']
+hashes = near_dupe_hashes(labels, values)
+print(f"Generated {len(hashes)} similarity hashes")
+# Output: Generated 8 similarity hashes
+```
+
 ### Type Support
 This package includes comprehensive type hints for mypy users:
 
@@ -107,12 +138,16 @@ from typing import List, Tuple
 from postal.expand import expand_address
 from postal.parser import parse_address
 from postal.normalize import normalized_tokens
+from postal.tokenize import tokenize
+from postal.near_dupe import near_dupe_hashes
 from postal.utils.enum import EnumValue
 
 # Type hints work out of the box
 expansions: List[str] = expand_address("123 Main St")
 components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
-tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
+norm_tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
+tokens: List[Tuple[str, EnumValue]] = tokenize("123 Main St")
+hashes: List[str] = near_dupe_hashes(['road'], ['Main St'])
 ```
 
 Installation
