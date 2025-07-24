@@ -133,3 +133,42 @@ jobs:
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
+
+  upload_github_release:
+    name: Upload to GitHub Release
+    needs: [build_wheels, build_sdist]
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Download all artifacts
+      uses: actions/download-artifact@v4
+      with:
+        path: dist
+        merge-multiple: true
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: dist/*.whl dist/*.tar.gz
+        body: |
+          ## pypostal-multiarch ${{ github.ref_name }}
+          
+          Python bindings to libpostal with multi-architecture support.
+          
+          ### Download Options
+          - **PyPI**: `pip install pypostal-multiarch==${{ github.ref_name }}`
+          - **Wheels**: Download platform-specific wheels below
+          
+          ### Supported Platforms
+          - **Linux**: x86_64, aarch64 (ARM64)
+          - **macOS**: x86_64 (Intel), arm64 (Apple Silicon) 
+          - **Windows**: AMD64
+          - **Python**: 3.8, 3.9, 3.10, 3.11, 3.12
+          
+          ### Changes
+          See commit history for detailed changes.
+        draft: false
+        prerelease: false
