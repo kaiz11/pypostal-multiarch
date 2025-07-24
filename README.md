@@ -147,7 +147,7 @@ expansions: List[str] = expand_address("123 Main St")
 components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
 norm_tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
 tokens: List[Tuple[str, EnumValue]] = tokenize("123 Main St")
-hashes: List[str] = near_dupe_hashes(['road'], ['Main St'], address_only_keys=True)
+hashes: List[str] = near_dupe_hashes(['house_number', 'road', 'city', 'postcode'], ['123', 'Main St', 'New York', '10001'], address_only_keys=True)
 ```
 
 Installation
