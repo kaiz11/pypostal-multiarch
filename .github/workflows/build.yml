@@ -58,9 +58,11 @@ jobs:
         # Skip tests that require libpostal data
         CIBW_TEST_SKIP: "*"
         # Install libpostal inside cibuildwheel containers
+        CIBW_MANYLINUX_X86_64_IMAGE: "manylinux_2_28"
+        CIBW_MANYLINUX_AARCH64_IMAGE: "manylinux_2_28"
         CIBW_BEFORE_ALL_LINUX: |
-          yum install -y curl autoconf automake libtool pkgconfig || 
-          (apt-get update && apt-get install -y curl autoconf automake libtool pkg-config) && 
+          # Use dnf for newer CentOS/AlmaLinux, fallback to yum for older systems
+          (dnf install -y curl autoconf automake libtool pkgconfig git || yum install -y curl autoconf automake libtool pkgconfig git) && 
           git clone https://github.com/openvenues/libpostal /tmp/libpostal && 
           cd /tmp/libpostal && 
           ./bootstrap.sh && 
