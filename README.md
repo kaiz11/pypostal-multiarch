@@ -23,6 +23,7 @@ This project is a modernized fork of [pypostal](https://github.com/openvenues/py
 
 Usage
 -----
+**⚠️ Note**: These examples require that libpostal is already installed on your system. See the [Installation](#installation) section below.
 
 ### Address Expansion
 Normalize and expand addresses into multiple possible variants:
@@ -33,13 +34,13 @@ from postal.expand import expand_address
 # Basic expansion
 expansions = expand_address('781 Franklin Ave Crown Hts Brooklyn NY')
 print(expansions)
-# ['781 franklin avenue crown heights brooklyn new york', 
-#  '781 franklin avenue crown heights brooklyn ny', ...]
+# Output: ['781 franklin avenue crown heights brooklyn new york', 
+#          '781 franklin avenue crown heights brooklyn ny', ...]
 
-# With language specification
+# With language specification  
 expansions = expand_address('Quatre vingt douze Ave des Champs-Élysées', languages=['fr'])
 print(expansions)
-# ['92 avenue des champs elysees', '92 ave des champs elysees', ...]
+# Output: ['92 avenue des champs elysees', '92 ave des champs elysees', ...]
 ```
 
 ### Address Parsing
@@ -52,6 +53,7 @@ from postal.parser import parse_address
 components = parse_address('The Book Club 100-106 Leonard St, Shoreditch, London, EC2A 4RH, UK')
 for component, label in components:
     print(f"{label}: {component}")
+# Output:
 # house_number: 100-106
 # road: leonard st
 # suburb: shoreditch  
@@ -68,12 +70,13 @@ from postal.normalize import normalize_string, normalized_tokens
 
 # String normalization
 normalized = normalize_string('St.-Barthélemy')
-print(normalized)  # 'saint barthelemy'
+print(normalized)  # Output: 'saint barthelemy'
 
 # Token normalization with types
 tokens = normalized_tokens('123 Main St.')
 for token, token_type in tokens:
     print(f"{token} ({token_type})")
+# Output:
 # 123 (numeric)
 # main (word)  
 # saint (word)
@@ -88,10 +91,11 @@ from postal.dedupe import is_street_duplicate, duplicate_status
 
 # Check if two street names are duplicates
 status = is_street_duplicate('Main St', 'Main Street')
-print(status)  # EXACT_DUPLICATE
+print(status)  # Output: EXACT_DUPLICATE
 
 if status == duplicate_status.EXACT_DUPLICATE:
     print("These are the same street")
+    # Output: These are the same street
 ```
 
 ### Type Support
@@ -154,7 +158,10 @@ Once libpostal is installed, install this Python package:
 pip install pypostal-multiarch
 ```
 
-**Note**: The package installs as `pypostal-multiarch` but imports as `postal` (same as the original).
+**Important Notes:**
+- The package installs as `pypostal-multiarch` but imports as `postal` (same as the original)
+- The package will install successfully even without libpostal, but **will fail at runtime** when you try to use it
+- Always install libpostal first, then install this Python package
 
 **Note**: Pre-built wheels are available for:
 - **Linux**: x86_64, aarch64 (ARM64)
@@ -205,3 +212,20 @@ python -m unittest discover postal/tests/
 ```
 
 Note: Tests require libpostal to be installed and may need the libpostal data files for full functionality.
+
+## Troubleshooting
+
+### "cannot import name '_expand' from 'postal'"
+This error means libpostal is not installed or not found. Make sure:
+1. libpostal is installed system-wide (`sudo make install`)
+2. Library paths are updated (`sudo ldconfig` on Linux)
+3. You're not in a container or environment where libpostal isn't available
+
+### "ImportError: libpostal.so.1: cannot open shared object file"
+This means the libpostal shared library can't be found:
+- On Linux: Run `sudo ldconfig` after installing libpostal
+- Check that libpostal installed correctly with `ldconfig -p | grep postal`
+- Make sure `/usr/local/lib` is in your library path
+
+### Examples don't work
+The usage examples in this README require libpostal to be installed and working. If you're just browsing the documentation, the examples show expected outputs but won't actually run without the full setup.
