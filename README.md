@@ -125,7 +125,7 @@ from postal.near_dupe import near_dupe_hashes
 # Generate hashes for address similarity
 labels = ['house_number', 'road', 'city', 'postcode']
 values = ['123', 'Main St', 'New York', '10001']
-hashes = near_dupe_hashes(labels, values)
+hashes = near_dupe_hashes(labels, values, address_only_keys=True)
 print(f"Generated {len(hashes)} similarity hashes")
 # Output: Generated 8 similarity hashes
 ```
@@ -147,7 +147,7 @@ expansions: List[str] = expand_address("123 Main St")
 components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
 norm_tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
 tokens: List[Tuple[str, EnumValue]] = tokenize("123 Main St")
-hashes: List[str] = near_dupe_hashes(['road'], ['Main St'])
+hashes: List[str] = near_dupe_hashes(['road'], ['Main St'], address_only_keys=True)
 ```
 
 Installation

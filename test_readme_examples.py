@@ -132,7 +132,7 @@ def test_near_duplicate_hashing():
     # Near-duplicate hashing example
     labels = ['house_number', 'road', 'city', 'postcode']
     values = ['123', 'Main St', 'New York', '10001']
-    hashes = near_dupe_hashes(labels, values)
+    hashes = near_dupe_hashes(labels, values, address_only_keys=True)
     print(f"✓ Generated {len(hashes)} similarity hashes")
     
     assert isinstance(hashes, list), f"Expected list, got {type(hashes)}"
@@ -156,7 +156,7 @@ def test_type_annotations():
     components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
     norm_tokens: List[Tuple[str, EnumValue]] = normalized_tokens("123 Main St")
     tokens: List[Tuple[str, EnumValue]] = tokenize("123 Main St")
-    hashes: List[str] = near_dupe_hashes(['road'], ['Main St'])
+    hashes: List[str] = near_dupe_hashes(['road'], ['Main St'], address_only_keys=True)
     
     print(f"✓ Type annotations work - expansions: {len(expansions)} items")
     print(f"✓ Type annotations work - components: {len(components)} items")
