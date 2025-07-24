@@ -118,7 +118,7 @@ def main():
         ],
         packages=find_packages(),
         package_data={
-            'postal': ['*.h']
+            'postal': ['*.h', '*.pyi', 'py.typed']
         },
         zip_safe=False,
         url='https://github.com/kaiz11/pypostal-multiarch',

@@ -32,7 +32,8 @@ classifiers = [
     "Topic :: Text Processing :: Linguistic",
     "Topic :: Scientific/Engineering :: GIS",
     "Topic :: Internet :: WWW/HTTP :: Indexing/Search",
-    "Topic :: Software Development :: Libraries :: Python Modules"
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Typing :: Typed"
 ]
 requires-python = ">=3.8"
 dependencies = [
