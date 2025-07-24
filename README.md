@@ -1,9 +1,16 @@
-pypostal
---------
+pypostal-multiarch
+------------------
 
-[![Build Status](https://travis-ci.org/openvenues/pypostal.svg?branch=master)](https://travis-ci.org/openvenues/pypostal) [![PyPI version](https://img.shields.io/pypi/v/postal.svg)](https://pypi.python.org/pypi/postal) [![License](https://img.shields.io/github/license/openvenues/pypostal.svg)](https://github.com/openvenues/pypostal/blob/master/LICENSE)
+[![Build Status](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml/badge.svg)](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml) [![PyPI version](https://img.shields.io/pypi/v/pypostal-multiarch.svg)](https://pypi.python.org/pypi/pypostal-multiarch) [![License](https://img.shields.io/github/license/kaiz11/pypostal-multiarch.svg)](https://github.com/kaiz11/pypostal-multiarch/blob/master/LICENSE)
 
-These are the official Python bindings to https://github.com/openvenues/libpostal, a fast statistical parser/normalizer for street addresses anywhere in the world.
+Python bindings to https://github.com/openvenues/libpostal with **multi-architecture support** including ARM64/Apple Silicon and **Python 3.8-3.12** compatibility.
+
+This is a modernized fork of the original [pypostal](https://github.com/openvenues/pypostal) with:
+- ✅ **Python 3.8-3.12** support (including Python 3.11)
+- ✅ **Multi-architecture wheels** (x86_64, ARM64/aarch64)  
+- ✅ **Apple Silicon (M1/M2) native support**
+- ✅ **Automated CI/CD** with GitHub Actions
+- ✅ **Modern packaging** with pyproject.toml
 
 Usage
 -----
@@ -53,8 +60,14 @@ sudo ldconfig
 To install the Python library, just run:
 
 ```
-pip install postal
+pip install pypostal-multiarch
 ```
+
+**Note**: Pre-built wheels are available for:
+- **Linux**: x86_64, aarch64 (ARM64)
+- **macOS**: x86_64 (Intel), arm64 (Apple Silicon M1/M2)  
+- **Windows**: AMD64
+- **Python**: 3.8, 3.9, 3.10, 3.11, 3.12
 
 **Installing libpostal on Windows**
 
@@ -86,7 +99,12 @@ copy src\.libs\libpostal-1.dll "C:\Python36\Lib\site-packages\postal\libpostal.d
 Compatibility
 -------------
 
-pypostal supports Python 2.7+ and Python 3.4+. These bindings are written using the Python C API and thus support CPython only. Since libpostal is a standalone C library, support for PyPy is still possible with a CFFI wrapper, but is not a goal for this repo.
+pypostal-multiarch supports **Python 3.8+** (including Python 3.11 and 3.12). These bindings are written using the Python C API and thus support CPython only. Since libpostal is a standalone C library, support for PyPy is still possible with a CFFI wrapper, but is not a goal for this repo.
+
+**Architecture Support:**
+- **Linux**: x86_64, aarch64 (ARM64)
+- **macOS**: x86_64 (Intel), arm64 (Apple Silicon)
+- **Windows**: AMD64
 
 Tests
 -----
