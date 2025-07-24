@@ -24,19 +24,98 @@ This project is a modernized fork of [pypostal](https://github.com/openvenues/py
 Usage
 -----
 
+### Address Expansion
+Normalize and expand addresses into multiple possible variants:
+
 ```python
 from postal.expand import expand_address
-expand_address('Quatre vingt douze Ave des Champs-Élysées')
 
+# Basic expansion
+expansions = expand_address('781 Franklin Ave Crown Hts Brooklyn NY')
+print(expansions)
+# ['781 franklin avenue crown heights brooklyn new york', 
+#  '781 franklin avenue crown heights brooklyn ny', ...]
+
+# With language specification
+expansions = expand_address('Quatre vingt douze Ave des Champs-Élysées', languages=['fr'])
+print(expansions)
+# ['92 avenue des champs elysees', '92 ave des champs elysees', ...]
+```
+
+### Address Parsing
+Parse addresses into labeled components:
+
+```python
 from postal.parser import parse_address
-parse_address('The Book Club 100-106 Leonard St, Shoreditch, London, Greater London, EC2A 4RH, United Kingdom')
+
+# Parse an address
+components = parse_address('The Book Club 100-106 Leonard St, Shoreditch, London, EC2A 4RH, UK')
+for component, label in components:
+    print(f"{label}: {component}")
+# house_number: 100-106
+# road: leonard st
+# suburb: shoreditch  
+# city: london
+# postcode: ec2a 4rh
+# country: uk
+```
+
+### Text Normalization
+Normalize strings and tokens:
+
+```python
+from postal.normalize import normalize_string, normalized_tokens
+
+# String normalization
+normalized = normalize_string('St.-Barthélemy')
+print(normalized)  # 'saint barthelemy'
+
+# Token normalization with types
+tokens = normalized_tokens('123 Main St.')
+for token, token_type in tokens:
+    print(f"{token} ({token_type})")
+# 123 (numeric)
+# main (word)  
+# saint (word)
+# street (word)
+```
+
+### Address Deduplication
+Check if addresses are duplicates:
+
+```python
+from postal.dedupe import is_street_duplicate, duplicate_status
+
+# Check if two street names are duplicates
+status = is_street_duplicate('Main St', 'Main Street')
+print(status)  # EXACT_DUPLICATE
+
+if status == duplicate_status.EXACT_DUPLICATE:
+    print("These are the same street")
+```
+
+### Type Support
+This package includes comprehensive type hints for mypy users:
+
+```python
+from typing import List, Tuple
+from postal.expand import expand_address
+from postal.parser import parse_address
+
+# Type hints work out of the box
+expansions: List[str] = expand_address("123 Main St")
+components: List[Tuple[str, str]] = parse_address("123 Main St Brooklyn NY")
 ```
 
 Installation
 ------------
 *Based on installation instructions from the original pypostal project*
 
-Before using the Python bindings, you must install the libpostal C library. Make sure you have the following prerequisites:
+### Prerequisites
+
+**⚠️ Important**: Before installing this package, you must first install the libpostal C library. This package won't work without it.
+
+Make sure you have the following prerequisites:
 
 **On Ubuntu/Debian**
 ```
@@ -67,11 +146,15 @@ sudo make install
 sudo ldconfig
 ```
 
-To install the Python library, just run:
+### Installing the Python Package
 
-```
+Once libpostal is installed, install this Python package:
+
+```bash
 pip install pypostal-multiarch
 ```
+
+**Note**: The package installs as `pypostal-multiarch` but imports as `postal` (same as the original).
 
 **Note**: Pre-built wheels are available for:
 - **Linux**: x86_64, aarch64 (ARM64)
