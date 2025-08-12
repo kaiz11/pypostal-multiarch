@@ -1,7 +1,7 @@
 pypostal-multiarch
 ------------------
 
-[![Test, Build and Publish](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml/badge.svg)](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml) [![PyPI version](https://img.shields.io/pypi/v/pypostal-multiarch.svg)](https://pypi.python.org/pypi/pypostal-multiarch) [![License](https://img.shields.io/github/license/kaiz11/pypostal-multiarch.svg)](https://github.com/kaiz11/pypostal-multiarch/blob/main/LICENSE)
+[![Test, Build and Publish](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml/badge.svg)](https://github.com/kaiz11/pypostal-multiarch/actions/workflows/build.yml) [![PyPI version](https://img.shields.io/pypi/v/pypostal-multiarch.svg)](https://pypi.python.org/pypi/pypostal-multiarch) [![PyPI Downloads](https://pepy.tech/badge/pypostal-multiarch/month)](https://pepy.tech/project/pypostal-multiarch) [![Libraries.io dependency status](https://img.shields.io/librariesio/release/pypi/pypostal-multiarch.svg)](https://libraries.io/pypi/pypostal-multiarch) [![License](https://img.shields.io/github/license/kaiz11/pypostal-multiarch.svg)](https://github.com/kaiz11/pypostal-multiarch/blob/main/LICENSE)
 
 Python bindings to https://github.com/openvenues/libpostal with **multi-architecture support** including ARM64/Apple Silicon and **Python 3.8-3.12** compatibility.
 
