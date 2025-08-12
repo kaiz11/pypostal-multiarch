@@ -161,32 +161,72 @@ Installation
 Make sure you have the following prerequisites:
 
 **On Ubuntu/Debian**
+```bash
+sudo apt-get install -y curl build-essential autoconf automake libtool pkg-config
 ```
-sudo apt-get install curl autoconf automake libtool python-dev pkg-config
-```
+
 **On CentOS/RHEL**
-```
-sudo yum install curl autoconf automake libtool python-devel pkgconfig
-```
-**On Mac OSX**
-```
-brew install curl autoconf automake libtool pkg-config
+```bash
+sudo yum install curl autoconf automake libtool pkgconfig
 ```
 
-**Installing libpostal**
+**On macOS**
 
-If you're using an M1 Mac, add --disable-sse2 to the ./configure command. This will result in poorer performance but the build will succeed.
-
+Install with one command via MacPorts:
+```bash
+port install libpostal
 ```
+
+Or with Homebrew:
+```bash
+brew install libpostal
+```
+
+**Installing libpostal from source**
+
+To compile the C library from source:
+
+```bash
 git clone https://github.com/openvenues/libpostal
 cd libpostal
+
+# skip if installing for the first time
+make distclean
+
 ./bootstrap.sh
-./configure --datadir=[...some dir with a few GB of space...]
-make
+
+# Basic configuration (omit --datadir flag to install data in current directory)
+./configure --datadir=[...some dir with a few GB of space where a "libpostal" directory exists or can be created/modified...]
+
+# For Intel/AMD processors and the default model
+./configure --datadir=[...some dir with a few GB of space where a "libpostal" directory exists or can be created/modified...]
+
+# For Apple Silicon/ARM CPUs and the default model
+./configure --datadir=[...some dir with a few GB of space where a "libpostal" directory exists or can be created/modified...] --disable-sse2
+
+# For the improved Senzing model:
+./configure --datadir=[...some dir with a few GB of space where a "libpostal" directory exists or can be created/modified...] MODEL=senzing
+
+make -j8
 sudo make install
 
 # On Linux it's probably a good idea to run
 sudo ldconfig
+```
+
+**Using pkg-config**
+
+libpostal has support for pkg-config, so you can use pkg-config to print the flags needed to link your program against it:
+
+```bash
+pkg-config --cflags libpostal         # print compiler flags
+pkg-config --libs libpostal           # print linker flags
+pkg-config --cflags --libs libpostal  # print both
+```
+
+For example, if you write a program called app.c, you can compile it like this:
+```bash
+gcc app.c `pkg-config --cflags --libs libpostal`
 ```
 
 ### Installing the Python Package
