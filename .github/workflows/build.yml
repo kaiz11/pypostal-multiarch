@@ -15,7 +15,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-22.04, macos-14]
-        python-version: ['3.11']
+        python-version: ['3.8', '3.9', '3.10', '3.11', '3.12', '3.13']
     
     steps:
     - uses: actions/checkout@v4
@@ -121,7 +121,7 @@ jobs:
         python -m cibuildwheel --output-dir wheelhouse
       env:
         # Build for multiple Python versions and architectures
-        CIBW_BUILD: "cp38-* cp39-* cp310-* cp311-* cp312-*"
+        CIBW_BUILD: "cp38-* cp39-* cp310-* cp311-* cp312-* cp313-*"
         CIBW_SKIP: "pp* *-musllinux_* *-win32 *-win_arm64 *-win_amd64"  # Skip PyPy, musl, and all Windows for now
         CIBW_ARCHS_LINUX: "x86_64 aarch64"
         CIBW_ARCHS_MACOS: "arm64"
@@ -225,7 +225,7 @@ jobs:
           - **Linux**: x86_64, aarch64 (ARM64)
           - **macOS**: x86_64 (Intel), arm64 (Apple Silicon) 
           - **Windows**: AMD64
-          - **Python**: 3.8, 3.9, 3.10, 3.11, 3.12
+          - **Python**: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
           
           ### Changes
           See commit history for detailed changes.

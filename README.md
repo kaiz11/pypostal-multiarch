@@ -6,7 +6,7 @@ pypostal-multiarch
 Python bindings to https://github.com/openvenues/libpostal with **multi-architecture support** including ARM64/Apple Silicon and **Python 3.8-3.12** compatibility.
 
 This is a modernized fork of the original [pypostal](https://github.com/openvenues/pypostal) with:
-- ✅ **Python 3.8-3.12** support (including Python 3.11)
+- ✅ **Python 3.8-3.13** support
 - ✅ **Multi-architecture wheels** (x86_64, ARM64/aarch64)  
 - ✅ **Apple Silicon (M1/M2) native support**
 - ✅ **Automated CI/CD** with GitHub Actions
@@ -245,7 +245,7 @@ pip install pypostal-multiarch
 **Note**: Pre-built wheels are available for:
 - **Linux**: x86_64, aarch64 (ARM64)
 - **macOS**: arm64 (Apple Silicon M1/M2/M3)  
-- **Python**: 3.8, 3.9, 3.10, 3.11, 3.12
+- **Python**: 3.8, 3.9, 3.10, 3.11, 3.12, 3.13
 
 Windows and macOS Intel (x86_64) are currently not supported - please install from source if needed.
 
@@ -267,7 +267,7 @@ For Windows specifically, you may need to use MSYS2 or Visual Studio build tools
 Compatibility
 -------------
 
-pypostal-multiarch supports **Python 3.8+** (including Python 3.11 and 3.12). These bindings are written using the Python C API and thus support CPython only. Since libpostal is a standalone C library, support for PyPy is still possible with a CFFI wrapper, but is not a goal for this repo.
+pypostal-multiarch supports **Python 3.8+** (including Python 3.11, 3.12, and 3.13). These bindings are written using the Python C API and thus support CPython only. Since libpostal is a standalone C library, support for PyPy is still possible with a CFFI wrapper, but is not a goal for this repo.
 
 **Architecture Support:**
 - **Linux**: x86_64, aarch64 (ARM64) - pre-built wheels available
