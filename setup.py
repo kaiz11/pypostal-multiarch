@@ -66,7 +66,7 @@ def find_libpostal():
     return include_dirs, library_dirs
 
 
-VERSION = '1.0.2'
+VERSION = '1.0.3'
 
 
 def main():
@@ -124,7 +124,7 @@ def main():
         zip_safe=False,
         url='https://github.com/kaiz11/pypostal-multiarch',
         download_url='https://github.com/kaiz11/pypostal-multiarch/tarball/{}'.format(VERSION),
-        description='Python bindings to libpostal for fast international address parsing/normalization',
+        description='Python bindings for libpostal: Fast international address parsing, normalization, geocoding, and standardization with multi-architecture support (ARM64, Apple Silicon)',
         license='MIT License',
         maintainer='kaiz11',
         maintainer_email='kaiz11@users.noreply.github.com',
